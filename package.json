@@ -1,0 +1,20 @@
+{
+  "name": "todo-list-api",
+  "version": "1.0.0",
+  "description": "a REST API using JWT that manages todo lists",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilia-abbasi/Todo-List-API.git"
+  },
+  "author": "Ilia Abbasi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilia-abbasi/Todo-List-API/issues"
+  },
+  "homepage": "https://github.com/ilia-abbasi/Todo-List-API#readme"
+}
