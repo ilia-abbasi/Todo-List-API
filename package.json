@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./app/index.mjs",
-    "start": "node ./app/index.mjs"
+    "start": "node ./app/index.mjs",
+    "setup": "node ./database/db_setup.mjs"
   },
   "repository": {
     "type": "git",
