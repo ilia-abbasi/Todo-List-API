@@ -21,6 +21,7 @@
   "homepage": "https://github.com/ilia-abbasi/Todo-List-API#readme",
   "dependencies": {
     "dotenv": "^17.2.2",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
   }
 }
