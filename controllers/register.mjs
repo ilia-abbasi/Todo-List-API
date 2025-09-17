@@ -18,7 +18,7 @@ async function registerUser(req, res, next) {
   const { name, email, password } = matchedData(req);
 
   const checkEmailResult = await checkEmailExists(email);
-  if (checkEmailResult.error) return next(checkEmailResult.error);
+  if (checkEmailResult.err) return next(checkEmailResult.err);
   if (checkEmailResult.result) {
     const resObj = makeResponseObj(false, "This email is already in use");
 
@@ -27,7 +27,7 @@ async function registerUser(req, res, next) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const insertUserResult = await insertUser(name, email, hashedPassword);
-  if (insertUserResult.error) return next(insertUserResult.error);
+  if (insertUserResult.err) return next(insertUserResult.err);
 
   const { user_id } = insertUserResult.result;
   const token = createJWT(user_id, name, email, "1h");

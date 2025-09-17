@@ -20,7 +20,7 @@ async function loginUser(req, res, next) {
 
   const { email, password } = matchedData(req);
   const queryResult = await selectUser(email);
-  if (queryResult.error) return next(queryResult.error);
+  if (queryResult.err) return next(queryResult.err);
 
   if (!queryResult.result) {
     const resObj = makeResponseObj(false, "Bad credentials");

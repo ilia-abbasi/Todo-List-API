@@ -16,8 +16,8 @@ function initializePool() {
   return pool;
 }
 
-function makeDatabaseResponse(error, result) {
-  return { error, result };
+function makeDatabaseResponse(err, result) {
+  return { err, result };
 }
 
 async function checkEmailExists(email) {
@@ -26,8 +26,8 @@ async function checkEmailExists(email) {
   try {
     const result = await pool.query(query, [email]);
     return makeDatabaseResponse(null, result.rowCount);
-  } catch (error) {
-    return makeDatabaseResponse(error, null);
+  } catch (err) {
+    return makeDatabaseResponse(err, null);
   }
 }
 
@@ -41,8 +41,8 @@ async function insertUser(name, email, hashedPassword) {
   try {
     const result = await pool.query(query, [name, email, hashedPassword]);
     return makeDatabaseResponse(null, result.rows[0]);
-  } catch (error) {
-    return makeDatabaseResponse(error, null);
+  } catch (err) {
+    return makeDatabaseResponse(err, null);
   }
 }
 
@@ -52,8 +52,8 @@ async function selectUser(email) {
   try {
     const result = await pool.query(query, [email]);
     return makeDatabaseResponse(null, result.rows[0]);
-  } catch (error) {
-    return makeDatabaseResponse(error, null);
+  } catch (err) {
+    return makeDatabaseResponse(err, null);
   }
 }
 
@@ -66,11 +66,11 @@ async function updateLastLogin(user_id) {
 
   try {
     await pool.query(query, [user_id]);
-  } catch (error) {
+  } catch (err) {
     console.log(
       `Database: Failed to update last_login_at of user_id = ${user_id}:`
     );
-    console.log(error);
+    console.log(err);
   }
 }
 
