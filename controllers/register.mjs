@@ -4,6 +4,7 @@ import { matchedData, validationResult } from "express-validator";
 
 import { makeResponseObj } from "../helpers/response.mjs";
 import { checkEmailExists, insertUser } from "../database/db.mjs";
+import { createJWT } from "../helpers/auth.mjs";
 
 async function registerUser(req, res, next) {
   const validationErrors = validationResult(req).errors;
@@ -29,8 +30,11 @@ async function registerUser(req, res, next) {
   if (insertUserResult.error) return next(insertUserResult.error);
 
   const { user_id } = insertUserResult.result;
+  const token = createJWT(user_id, name, email, "1h");
 
-  return res.status(201).send("Lorem");
+  const resObj = makeResponseObj(true, "Successfully registered", { token });
+
+  return res.status(201).json(resObj);
 }
 
 export { registerUser };
