@@ -11,13 +11,18 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
+function makeDatabaseResponse(error, result) {
+  return { error, result };
+}
+
 async function checkEmailExists(email) {
   const query = "SELECT user_id FROM users WHERE email = $1;";
+
   try {
     const result = await pool.query(query, [email]);
-    console.log(result);
-  } catch (err) {
-    return { err, result: null };
+    return makeDatabaseResponse(null, result.rowCount);
+  } catch (error) {
+    return makeDatabaseResponse(error, null);
   }
 }
 

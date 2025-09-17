@@ -4,7 +4,7 @@ import { matchedData, validationResult } from "express-validator";
 import { makeResponseObj } from "../helpers/response.mjs";
 import { checkEmailExists } from "../database/db.mjs";
 
-async function registerUser(req, res) {
+async function registerUser(req, res, next) {
   const validationErrors = validationResult(req).errors;
 
   if (!_.isEmpty(validationErrors)) {
@@ -14,6 +14,17 @@ async function registerUser(req, res) {
   }
 
   const { name, email, password } = matchedData(req);
+
+  const checkEmailResult = await checkEmailExists(email);
+  if (checkEmailResult.error) {
+    return next(checkEmailResult.error);
+  }
+
+  if (checkEmailResult.result) {
+    const resObj = makeResponseObj(false, "This email is already in use");
+
+    return res.status(409).json(resObj);
+  }
 
   return res.status(201).send("Lorem");
 }
