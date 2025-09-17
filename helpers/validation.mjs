@@ -15,8 +15,8 @@ const emailValidator = () =>
     .withMessage("email is required")
     .isString()
     .withMessage("email must be a string")
-    .isLength({ min: 1, max: 100 })
-    .withMessage("email length can not exceed 100")
+    .isLength({ min: 1, max: 320 })
+    .withMessage("email length can not exceed 320")
     .isEmail()
     .withMessage("email must be valid");
 
