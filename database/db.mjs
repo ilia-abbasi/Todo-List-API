@@ -74,10 +74,26 @@ async function updateLastLogin(user_id) {
   }
 }
 
+async function insertTodo(title, description, user_id) {
+  const query = `
+  INSERT INTO todos (title, description, user_id)
+  VALUES ($1, $2, $3)
+  RETURNING *;
+  `;
+
+  try {
+    const result = await pool.query(query, [title, description, user_id]);
+    return makeDatabaseResponse(null, result.rows[0]);
+  } catch (err) {
+    return makeDatabaseResponse(err, null);
+  }
+}
+
 export {
   initializePool,
   checkEmailExists,
   insertUser,
   selectUser,
   updateLastLogin,
+  insertTodo,
 };
