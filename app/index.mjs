@@ -6,6 +6,7 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 
 import mainRouter from "../routes/main.mjs";
+import { initializePool } from "../database/db.mjs";
 import { generalErrorHandler, limitResponse } from "../helpers/response.mjs";
 
 const app = express();
@@ -24,6 +25,8 @@ app.use(express.json());
 app.use(mainRouter);
 
 app.use(generalErrorHandler);
+
+initializePool();
 
 app.listen(port, () => {
   console.log(`Server: Listening on port ${port} ...`);
