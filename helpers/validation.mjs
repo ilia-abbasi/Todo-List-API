@@ -6,7 +6,7 @@ const nameValidator = () =>
     .withMessage("name is required")
     .isString()
     .withMessage("name must be a string")
-    .isLength({ min: 1, max: 50 })
+    .isLength({ max: 50 })
     .withMessage("name length can not exceed 50");
 
 const emailValidator = () =>
@@ -15,7 +15,7 @@ const emailValidator = () =>
     .withMessage("email is required")
     .isString()
     .withMessage("email must be a string")
-    .isLength({ min: 1, max: 320 })
+    .isLength({ max: 320 })
     .withMessage("email length can not exceed 320")
     .isEmail()
     .withMessage("email must be valid");
@@ -31,6 +31,24 @@ const passwordValidator = (strongPasswordMessage) =>
     .isStrongPassword()
     .withMessage(strongPasswordMessage);
 
+const titleValidator = () =>
+  body("title")
+    .notEmpty()
+    .withMessage("title is required")
+    .isString()
+    .withMessage("title must be a string")
+    .isLength({ max: 50 })
+    .withMessage("title length can not exceed 50");
+
+const descriptionValidator = () =>
+  body("description")
+    .notEmpty()
+    .withMessage("description is required")
+    .isString()
+    .withMessage("description must be a string")
+    .isLength({ max: 3000 })
+    .withMessage("description length can not exceed 3000");
+
 const registerUserValidator = () => [
   nameValidator(),
   emailValidator(),
@@ -42,4 +60,6 @@ const loginUserValidator = () => [
   passwordValidator("Bad credentials"),
 ];
 
-export { registerUserValidator, loginUserValidator };
+const createTodoValidator = () => [titleValidator(), descriptionValidator()];
+
+export { registerUserValidator, loginUserValidator, createTodoValidator };
