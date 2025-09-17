@@ -1,17 +1,19 @@
 import dotenv from "dotenv";
+dotenv.config();
+
 import morgan from "morgan";
 import express from "express";
+import rateLimit from "express-rate-limit";
+
 import mainRouter from "../routes/main.mjs";
 import { generalErrorHandler, limitResponse } from "../helpers/response.mjs";
-
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000,
-  limit: 60,
+  windowMs: 60 * 1000,
+  limit: 30,
   message: limitResponse,
 });
 
