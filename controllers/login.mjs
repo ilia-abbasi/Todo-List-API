@@ -2,9 +2,9 @@ import _ from "lodash";
 import bcrypt from "bcryptjs";
 import { matchedData, validationResult } from "express-validator";
 
-import { selectUser } from "../database/db.mjs";
 import { createJWT } from "../helpers/auth.mjs";
 import { makeResponseObj } from "../helpers/response.mjs";
+import { selectUser, updateLastLogin } from "../database/db.mjs";
 
 async function loginUser(req, res, next) {
   const validationErrors = validationResult(req).errors;
@@ -41,7 +41,8 @@ async function loginUser(req, res, next) {
   const token = createJWT(user_id, name, email, "1h");
   const resObj = makeResponseObj(true, "Login successful", { token });
 
-  return res.status(200).json(resObj);
+  res.status(200).json(resObj);
+  await updateLastLogin(user_id);
 }
 
 export { loginUser };

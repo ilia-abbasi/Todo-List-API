@@ -57,4 +57,27 @@ async function selectUser(email) {
   }
 }
 
-export { initializePool, checkEmailExists, insertUser, selectUser };
+async function updateLastLogin(user_id) {
+  const query = `
+  UPDATE users
+  SET last_login_at = NOW()
+  WHERE user_id = $1;
+  `;
+
+  try {
+    await pool.query(query, [user_id]);
+  } catch (error) {
+    console.log(
+      `Database: Failed to update last_login_at of user_id = ${user_id}:`
+    );
+    console.log(error);
+  }
+}
+
+export {
+  initializePool,
+  checkEmailExists,
+  insertUser,
+  selectUser,
+  updateLastLogin,
+};
