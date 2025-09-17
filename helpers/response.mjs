@@ -39,4 +39,15 @@ function generalErrorHandler(err, req, res, next) {
   return res.status(500).json(resObj);
 }
 
-export { makeResponseObj, send404Error, send405Error, generalErrorHandler };
+const limitResponse = makeResponseObj(
+  false,
+  "You have reached your request limit"
+);
+
+export {
+  makeResponseObj,
+  send404Error,
+  send405Error,
+  generalErrorHandler,
+  limitResponse,
+};
