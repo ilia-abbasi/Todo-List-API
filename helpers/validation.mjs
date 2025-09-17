@@ -20,7 +20,7 @@ const emailValidator = () =>
     .isEmail()
     .withMessage("email must be valid");
 
-const passwordValidator = () =>
+const passwordValidator = (strongPasswordMessage) =>
   body("password")
     .notEmpty()
     .withMessage("password is required")
@@ -29,12 +29,17 @@ const passwordValidator = () =>
     .isLength({ max: 10 * 1000 })
     .withMessage("Are you serious?")
     .isStrongPassword()
-    .withMessage("Please choose a stronger password");
+    .withMessage(strongPasswordMessage);
 
 const registerUserValidator = () => [
   nameValidator(),
   emailValidator(),
-  passwordValidator(),
+  passwordValidator("Please choose a stronger password"),
 ];
 
-export { registerUserValidator };
+const loginUserValidator = () => [
+  emailValidator(),
+  passwordValidator("Bad credentials"),
+];
+
+export { registerUserValidator, loginUserValidator };

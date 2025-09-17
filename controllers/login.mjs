@@ -5,3 +5,5 @@ import { matchedData, validationResult } from "express-validator";
 async function loginUser(req, res, next) {
   //
 }
+
+export { loginUser };
