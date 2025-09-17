@@ -18,7 +18,7 @@ async function createUsersTable() {
       user_id SERIAL PRIMARY KEY,
       name VARCHAR (50) NOT NULL,
       email VARCHAR (320) NOT NULL UNIQUE, -- RFC 5321 compliant
-      password VARCHAR (128) NOT NULL,
+      password VARCHAR (60) NOT NULL,
       registered_at TIMESTAMP DEFAULT NOW(),
       last_login_at TIMESTAMP DEFAULT NOW()
     );
