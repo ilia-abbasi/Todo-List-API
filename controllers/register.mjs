@@ -2,9 +2,9 @@ import _ from "lodash";
 import bcrypt from "bcryptjs";
 import { matchedData, validationResult } from "express-validator";
 
+import { createJWT } from "../helpers/auth.mjs";
 import { makeResponseObj } from "../helpers/response.mjs";
 import { checkEmailExists, insertUser } from "../database/db.mjs";
-import { createJWT } from "../helpers/auth.mjs";
 
 async function registerUser(req, res, next) {
   const validationErrors = validationResult(req).errors;

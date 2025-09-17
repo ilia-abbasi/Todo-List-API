@@ -46,4 +46,15 @@ async function insertUser(name, email, hashedPassword) {
   }
 }
 
-export { initializePool, checkEmailExists, insertUser };
+async function selectUser(email) {
+  const query = "SELECT * FROM users WHERE email = $1;";
+
+  try {
+    const result = await pool.query(query, [email]);
+    return makeDatabaseResponse(null, result.rows[0]);
+  } catch (error) {
+    return makeDatabaseResponse(error, null);
+  }
+}
+
+export { initializePool, checkEmailExists, insertUser, selectUser };
