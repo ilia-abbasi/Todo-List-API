@@ -132,6 +132,22 @@ async function deleteTodoDB(todoId) {
   }
 }
 
+async function getTodosDB(page, limit, userId) {
+  const query = `
+  SELECT * FROM todos
+  WHERE user_id = $1
+  LIMIT $2 OFFSET $3;
+  `;
+  const offset = limit * (page - 1);
+
+  try {
+    const result = await pool.query(query, [userId, limit, offset]);
+    return makeDatabaseResponse(null, result.rows);
+  } catch (err) {
+    return makeDatabaseResponse(err, null);
+  }
+}
+
 export {
   initializePool,
   getUserCountByEmail,
@@ -142,4 +158,5 @@ export {
   getTodo,
   updateTodoDB,
   deleteTodoDB,
+  getTodosDB,
 };

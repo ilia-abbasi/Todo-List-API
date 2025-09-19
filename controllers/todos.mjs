@@ -4,6 +4,7 @@ import { matchedData, validationResult } from "express-validator";
 import {
   deleteTodoDB,
   getTodo,
+  getTodosDB,
   insertTodo,
   updateTodoDB,
 } from "../database/db.mjs";
@@ -109,7 +110,29 @@ async function deleteTodo(req, res, next) {
 }
 
 async function getTodos(req, res, next) {
-  //
+  const validationErrors = validationResult(req).errors;
+
+  if (!_.isEmpty(validationErrors)) {
+    const resObj = makeResponseObj(false, validationErrors[0].msg);
+
+    return res.status(400).json(resObj);
+  }
+
+  const userId = req.user.sub;
+  const { page, limit } = matchedData(req);
+
+  const queryResult = await getTodosDB(page, limit, userId);
+  if (queryResult.err) return next(queryResult.err);
+
+  const data = {
+    todos: queryResult.result,
+    page,
+    limit,
+    total: queryResult.result.length,
+  };
+  const resObj = makeResponseObj(true, "Got todo items", data);
+
+  return res.status(200).json(resObj);
 }
 
 export { createTodo, updateTodo, deleteTodo, getTodos };
