@@ -89,6 +89,17 @@ async function insertTodo(title, description, userId) {
   }
 }
 
+async function getTodo(todoId) {
+  const query = "SELECT * FROM todos WHERE todo_id = $1;";
+
+  try {
+    const result = await pool.query(query, [todoId]);
+    return makeDatabaseResponse(null, result.rows[0]);
+  } catch (err) {
+    return makeDatabaseResponse(err, null);
+  }
+}
+
 export {
   initializePool,
   getUserCountByEmail,
@@ -96,4 +107,5 @@ export {
   selectUser,
   updateLastLogin,
   insertTodo,
+  getTodo,
 };

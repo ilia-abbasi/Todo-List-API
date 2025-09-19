@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { matchedData, validationResult } from "express-validator";
 
-import { insertTodo } from "../database/db.mjs";
+import { getTodo, insertTodo } from "../database/db.mjs";
 import { makeResponseObj } from "../helpers/response.mjs";
 
 async function createTodo(req, res, next) {
@@ -34,7 +34,18 @@ async function updateTodo(req, res, next) {
   }
 
   const userId = req.user.sub;
-  const { title, description } = matchedData(req);
+  const { todoId, title, description } = matchedData(req);
+
+  const queryResult = await getTodo(todoId);
+  if (queryResult.err) return next(queryResult.err);
+
+  if (queryResult.result.user_id !== userId) {
+    const resObj = makeResponseObj(false, "Forbidden");
+
+    return res.status(403).json(resObj);
+  }
+
+  //
 }
 
 export { createTodo, updateTodo };
