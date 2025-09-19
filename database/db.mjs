@@ -121,6 +121,17 @@ async function updateTodoDB(todoId, title, description, userId) {
   }
 }
 
+async function deleteTodoDB(todoId) {
+  const query = "DELETE FROM todos WHERE todo_id = $1;";
+
+  try {
+    await pool.query(query, [todoId]);
+    return makeDatabaseResponse(null, null);
+  } catch (err) {
+    return makeDatabaseResponse(err, null);
+  }
+}
+
 export {
   initializePool,
   getUserCountByEmail,
@@ -130,4 +141,5 @@ export {
   insertTodo,
   getTodo,
   updateTodoDB,
+  deleteTodoDB,
 };

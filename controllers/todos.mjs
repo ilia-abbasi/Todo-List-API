@@ -1,7 +1,12 @@
 import _ from "lodash";
 import { matchedData, validationResult } from "express-validator";
 
-import { getTodo, insertTodo, updateTodoDB } from "../database/db.mjs";
+import {
+  deleteTodoDB,
+  getTodo,
+  insertTodo,
+  updateTodoDB,
+} from "../database/db.mjs";
 import { makeResponseObj } from "../helpers/response.mjs";
 
 async function createTodo(req, res, next) {
@@ -71,7 +76,36 @@ async function updateTodo(req, res, next) {
 }
 
 async function deleteTodo(req, res, next) {
-  //
+  const validationErrors = validationResult(req).errors;
+
+  if (!_.isEmpty(validationErrors)) {
+    const resObj = makeResponseObj(false, validationErrors[0].msg);
+
+    return res.status(400).json(resObj);
+  }
+
+  const userId = req.user.sub;
+  const { todoId } = matchedData(req);
+
+  const queryResult = await getTodo(todoId);
+  if (queryResult.err) return next(queryResult.err);
+
+  if (!queryResult.result) {
+    const resObj = makeResponseObj(false, "Todo item not found");
+
+    return res.status(404).json(resObj);
+  }
+
+  if (queryResult.result.user_id !== userId) {
+    const resObj = makeResponseObj(false, "Forbidden");
+
+    return res.status(403).json(resObj);
+  }
+
+  const deleteTodoResult = await deleteTodoDB(todoId);
+  if (deleteTodoResult.err) return next(deleteTodoResult.err);
+
+  return res.status(204).send();
 }
 
 export { createTodo, updateTodo, deleteTodo };
