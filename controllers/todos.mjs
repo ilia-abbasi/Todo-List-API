@@ -108,4 +108,8 @@ async function deleteTodo(req, res, next) {
   return res.status(204).send();
 }
 
-export { createTodo, updateTodo, deleteTodo };
+async function getTodos(req, res, next) {
+  //
+}
+
+export { createTodo, updateTodo, deleteTodo, getTodos };

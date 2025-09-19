@@ -1,4 +1,4 @@
-import { body, param } from "express-validator";
+import { body, param, query } from "express-validator";
 
 const nameValidator = () =>
   body("name")
@@ -53,8 +53,24 @@ const todoIdValidator = () =>
   param("todoId")
     .notEmpty()
     .withMessage("todo ID is required")
-    .isInt()
-    .withMessage("todo ID must be an integer");
+    .isInt({ min: 1 })
+    .withMessage("todo ID must be a positive integer");
+
+const pageValidator = () =>
+  query("page")
+    .trim()
+    .notEmpty()
+    .withMessage("page is required")
+    .isInt({ min: 1 })
+    .withMessage("page must be a positive integer");
+
+const limitValidator = () =>
+  query("limit")
+    .trim()
+    .notEmpty()
+    .withMessage("limit is required")
+    .isInt({ min: 1 })
+    .withMessage("limit must be a positive integer");
 
 const registerUserValidator = () => [
   nameValidator(),
@@ -77,10 +93,13 @@ const updateTodoValidator = () => [
 
 const deleteTodoValidator = () => [todoIdValidator()];
 
+const getTodosValidator = () => [pageValidator(), limitValidator()];
+
 export {
   registerUserValidator,
   loginUserValidator,
   createTodoValidator,
   updateTodoValidator,
   deleteTodoValidator,
+  getTodosValidator,
 };
