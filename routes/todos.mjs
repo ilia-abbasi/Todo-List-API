@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.use(verifyToken);
 router.post("/", createTodoValidator(), createTodo);
-router.put("/:todo_id", updateTodo);
+router.put("/:todoId", updateTodo);
 
 export default router;

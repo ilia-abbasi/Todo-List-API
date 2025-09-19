@@ -57,7 +57,7 @@ async function selectUser(email) {
   }
 }
 
-async function updateLastLogin(user_id) {
+async function updateLastLogin(userId) {
   const query = `
   UPDATE users
   SET last_login_at = NOW()
@@ -65,16 +65,16 @@ async function updateLastLogin(user_id) {
   `;
 
   try {
-    await pool.query(query, [user_id]);
+    await pool.query(query, [userId]);
   } catch (err) {
     console.log(
-      `Database: Failed to update last_login_at of user_id = ${user_id}:`
+      `Database: Failed to update last_login_at of user_id = ${userId}:`
     );
     console.log(err);
   }
 }
 
-async function insertTodo(title, description, user_id) {
+async function insertTodo(title, description, userId) {
   const query = `
   INSERT INTO todos (title, description, user_id)
   VALUES ($1, $2, $3)
@@ -82,7 +82,7 @@ async function insertTodo(title, description, user_id) {
   `;
 
   try {
-    const result = await pool.query(query, [title, description, user_id]);
+    const result = await pool.query(query, [title, description, userId]);
     return makeDatabaseResponse(null, result.rows[0]);
   } catch (err) {
     return makeDatabaseResponse(err, null);

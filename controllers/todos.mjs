@@ -13,10 +13,10 @@ async function createTodo(req, res, next) {
     return res.status(400).json(resObj);
   }
 
-  const user_id = req.user.sub;
+  const userId = req.user.sub;
   const { title, description } = matchedData(req);
 
-  const queryResult = await insertTodo(title, description, user_id);
+  const queryResult = await insertTodo(title, description, userId);
   if (queryResult.err) return next(queryResult.err);
 
   const resObj = makeResponseObj(true, "Todo item created", queryResult.result);
@@ -25,7 +25,16 @@ async function createTodo(req, res, next) {
 }
 
 async function updateTodo(req, res, next) {
-  //
+  const validationErrors = validationResult(req).errors;
+
+  if (!_.isEmpty(validationErrors)) {
+    const resObj = makeResponseObj(false, validationErrors[0].msg);
+
+    return res.status(400).json(resObj);
+  }
+
+  const userId = req.user.sub;
+  const { title, description } = matchedData(req);
 }
 
 export { createTodo, updateTodo };

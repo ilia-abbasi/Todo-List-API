@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 const nameValidator = () =>
   body("name")
@@ -49,6 +49,13 @@ const descriptionValidator = () =>
     .isLength({ max: 3000 })
     .withMessage("description length can not exceed 3000");
 
+const todoIdValidator = () =>
+  param("todoId")
+    .notEmpty()
+    .withMessage("todo ID is required")
+    .isInt()
+    .withMessage("todo ID must be an integer");
+
 const registerUserValidator = () => [
   nameValidator(),
   emailValidator(),
@@ -62,4 +69,15 @@ const loginUserValidator = () => [
 
 const createTodoValidator = () => [titleValidator(), descriptionValidator()];
 
-export { registerUserValidator, loginUserValidator, createTodoValidator };
+const updateTodoValidator = () => [
+  todoIdValidator(),
+  titleValidator(),
+  descriptionValidator(),
+];
+
+export {
+  registerUserValidator,
+  loginUserValidator,
+  createTodoValidator,
+  updateTodoValidator,
+};

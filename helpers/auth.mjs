@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import { makeResponseObj } from "./response.mjs";
 
-function createJWT(user_id, name, email, expiresIn = "1h") {
-  if (!user_id || !name || !email) return false;
+function createJWT(userId, name, email, expiresIn = "1h") {
+  if (!userId || !name || !email) return false;
 
   return jwt.sign(
     {
-      sub: user_id,
+      sub: userId,
       name: name,
       email: email,
     },
