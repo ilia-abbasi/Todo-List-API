@@ -28,7 +28,8 @@ async function loginUser(req, res, next) {
     return res.status(401).json(resObj);
   }
 
-  const { user_id, name } = queryResult.result;
+  const userId = queryResult.result.user_id;
+  const { name } = queryResult.result;
   const hashedPassword = queryResult.result.password;
   const passwordsMatch = await bcrypt.compare(password, hashedPassword);
 
@@ -38,11 +39,11 @@ async function loginUser(req, res, next) {
     return res.status(401).json(resObj);
   }
 
-  const token = createJWT(user_id, name, email, "1h");
+  const token = createJWT(userId, name, email, "1h");
   const resObj = makeResponseObj(true, "Login successful", { token });
 
   res.status(200).json(resObj);
-  await updateLastLogin(user_id);
+  await updateLastLogin(userId);
 }
 
 export { loginUser };

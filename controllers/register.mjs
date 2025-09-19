@@ -4,7 +4,7 @@ import { matchedData, validationResult } from "express-validator";
 
 import { createJWT } from "../helpers/auth.mjs";
 import { makeResponseObj } from "../helpers/response.mjs";
-import { checkEmailExists, insertUser } from "../database/db.mjs";
+import { getUserCountByEmail, insertUser } from "../database/db.mjs";
 
 async function registerUser(req, res, next) {
   const validationErrors = validationResult(req).errors;
@@ -17,9 +17,9 @@ async function registerUser(req, res, next) {
 
   const { name, email, password } = matchedData(req);
 
-  const checkEmailResult = await checkEmailExists(email);
-  if (checkEmailResult.err) return next(checkEmailResult.err);
-  if (checkEmailResult.result) {
+  const userCountResult = await getUserCountByEmail(email);
+  if (userCountResult.err) return next(userCountResult.err);
+  if (userCountResult.result) {
     const resObj = makeResponseObj(false, "This email is already in use");
 
     return res.status(409).json(resObj);
@@ -29,8 +29,8 @@ async function registerUser(req, res, next) {
   const insertUserResult = await insertUser(name, email, hashedPassword);
   if (insertUserResult.err) return next(insertUserResult.err);
 
-  const { user_id } = insertUserResult.result;
-  const token = createJWT(user_id, name, email, "1h");
+  const userId = insertUserResult.result.user_id;
+  const token = createJWT(userId, name, email, "1h");
 
   const resObj = makeResponseObj(true, "Successfully registered", { token });
 

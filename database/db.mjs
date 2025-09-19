@@ -20,7 +20,7 @@ function makeDatabaseResponse(err, result) {
   return { err, result };
 }
 
-async function checkEmailExists(email) {
+async function getUserCountByEmail(email) {
   const query = "SELECT user_id FROM users WHERE email = $1;";
 
   try {
@@ -91,7 +91,7 @@ async function insertTodo(title, description, userId) {
 
 export {
   initializePool,
-  checkEmailExists,
+  getUserCountByEmail,
   insertUser,
   selectUser,
   updateLastLogin,
