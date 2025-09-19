@@ -70,4 +70,8 @@ async function updateTodo(req, res, next) {
   return res.status(200).json(resObj);
 }
 
-export { createTodo, updateTodo };
+async function deleteTodo(req, res, next) {
+  //
+}
+
+export { createTodo, updateTodo, deleteTodo };

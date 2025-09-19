@@ -75,9 +75,12 @@ const updateTodoValidator = () => [
   descriptionValidator(),
 ];
 
+const deleteTodoValidator = () => [todoIdValidator()];
+
 export {
   registerUserValidator,
   loginUserValidator,
   createTodoValidator,
   updateTodoValidator,
+  deleteTodoValidator,
 };
