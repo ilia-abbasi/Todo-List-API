@@ -24,4 +24,8 @@ async function createTodo(req, res, next) {
   return res.status(201).json(resObj);
 }
 
-export { createTodo };
+async function updateTodo(req, res, next) {
+  //
+}
+
+export { createTodo, updateTodo };
