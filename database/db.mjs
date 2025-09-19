@@ -100,6 +100,27 @@ async function getTodo(todoId) {
   }
 }
 
+async function updateTodoDB(todoId, title, description, userId) {
+  const query = `
+  UPDATE todos
+  SET title = $1, description = $2, updated_at = NOW()
+  WHERE todo_id = $3 AND user_id = $4
+  RETURNING *;
+  `;
+
+  try {
+    const result = await pool.query(query, [
+      title,
+      description,
+      todoId,
+      userId,
+    ]);
+    return makeDatabaseResponse(null, result.rows[0]);
+  } catch (err) {
+    return makeDatabaseResponse(err, null);
+  }
+}
+
 export {
   initializePool,
   getUserCountByEmail,
@@ -108,4 +129,5 @@ export {
   updateLastLogin,
   insertTodo,
   getTodo,
+  updateTodoDB,
 };

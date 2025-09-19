@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { matchedData, validationResult } from "express-validator";
 
-import { getTodo, insertTodo } from "../database/db.mjs";
+import { getTodo, insertTodo, updateTodoDB } from "../database/db.mjs";
 import { makeResponseObj } from "../helpers/response.mjs";
 
 async function createTodo(req, res, next) {
@@ -39,13 +39,35 @@ async function updateTodo(req, res, next) {
   const queryResult = await getTodo(todoId);
   if (queryResult.err) return next(queryResult.err);
 
+  if (!queryResult.result) {
+    const resObj = makeResponseObj(false, "Todo item not found");
+
+    return res.status(404).json(resObj);
+  }
+
   if (queryResult.result.user_id !== userId) {
     const resObj = makeResponseObj(false, "Forbidden");
 
     return res.status(403).json(resObj);
   }
 
-  //
+  const updateTodoResult = await updateTodoDB(
+    todoId,
+    title,
+    description,
+    userId
+  );
+  if (updateTodoResult.err) return next(updateTodoResult.err);
+  if (!updateTodoResult.result)
+    return next(new Error("Database: No todo item updated"));
+
+  const resObj = makeResponseObj(
+    true,
+    "Updated todo item",
+    updateTodoResult.result
+  );
+
+  return res.status(200).json(resObj);
 }
 
 export { createTodo, updateTodo };
