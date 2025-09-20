@@ -70,6 +70,7 @@ The source code is formatted with [Prettier](https://prettier.io/).
 
 ---
 
-Read the docs here.  
+Read the docs
+[here](https://github.com/ilia-abbasi/Todo-List-API/blob/main/Documentation.md).  
 Todo-List-API is licensed under the
 [GPL-3.0 license](https://github.com/ilia-abbasi/Todo-List-API/blob/main/LICENSE).
