@@ -51,7 +51,7 @@ async function updateTodo(req, res, next) {
     return res.status(403).json(resObj);
   }
 
-  const updateTodoResult = await db.updateTodoDB(
+  const updateTodoResult = await db.updateTodo(
     todoId,
     title,
     description,
@@ -97,7 +97,7 @@ async function deleteTodo(req, res, next) {
     return res.status(403).json(resObj);
   }
 
-  const deleteTodoResult = await db.deleteTodoDB(todoId);
+  const deleteTodoResult = await db.deleteTodo(todoId);
   if (deleteTodoResult.err) return next(deleteTodoResult.err);
 
   return res.status(204).send();
@@ -115,7 +115,7 @@ async function getTodos(req, res, next) {
   const userId = req.user.sub;
   const { page, limit } = matchedData(req);
 
-  const queryResult = await db.getTodosDB(page, limit, userId);
+  const queryResult = await db.getTodos(page, limit, userId);
   if (queryResult.err) return next(queryResult.err);
 
   const data = {
