@@ -12,6 +12,7 @@ import {
   createTodoValidator,
   deleteTodoValidator,
   getTodosValidator,
+  getTodoValidator,
   updateTodoValidator,
 } from "../helpers/validation.mjs";
 import { send404Error, send405Error } from "../helpers/response.mjs";
@@ -27,7 +28,7 @@ router.all("/", send405Error(["POST", "GET"]));
 
 router.put("/:todoId", updateTodoValidator(), updateTodo);
 router.delete("/:todoId", deleteTodoValidator(), deleteTodo);
-router.get("/:todoId", getTodo);
+router.get("/:todoId", getTodoValidator(), getTodo);
 router.all("/:todoId", send405Error(["PUT", "DELETE", "GET"]));
 
 router.all("/*anything", send404Error);

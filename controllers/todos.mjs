@@ -133,7 +133,16 @@ async function getTodos(req, res, next) {
 }
 
 async function getTodo(req, res, next) {
-  //
+  const validationErrors = validationResult(req).errors;
+
+  if (!_.isEmpty(validationErrors)) {
+    const resObj = makeResponseObj(false, validationErrors[0].msg);
+
+    return res.status(400).json(resObj);
+  }
+
+  const userId = req.user.sub;
+  const { todoId } = matchedData(req);
 }
 
 export { createTodo, updateTodo, deleteTodo, getTodos, getTodo };

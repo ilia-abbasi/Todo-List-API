@@ -95,6 +95,8 @@ const deleteTodoValidator = () => [todoIdValidator()];
 
 const getTodosValidator = () => [pageValidator(), limitValidator()];
 
+const getTodoValidator = () => [todoIdValidator()];
+
 export {
   registerUserValidator,
   loginUserValidator,
@@ -102,4 +104,5 @@ export {
   updateTodoValidator,
   deleteTodoValidator,
   getTodosValidator,
+  getTodoValidator,
 };
