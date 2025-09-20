@@ -4,6 +4,7 @@ import { verifyToken } from "../helpers/auth.mjs";
 import {
   createTodo,
   deleteTodo,
+  getTodo,
   getTodos,
   updateTodo,
 } from "../controllers/todos.mjs";
@@ -26,7 +27,8 @@ router.all("/", send405Error(["POST", "GET"]));
 
 router.put("/:todoId", updateTodoValidator(), updateTodo);
 router.delete("/:todoId", deleteTodoValidator(), deleteTodo);
-router.all("/:todoId", send405Error(["PUT", "DELETE"]));
+router.get("/:todoId", getTodo);
+router.all("/:todoId", send405Error(["PUT", "DELETE", "GET"]));
 
 router.all("/*anything", send404Error);
 

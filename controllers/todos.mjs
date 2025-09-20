@@ -132,4 +132,8 @@ async function getTodos(req, res, next) {
   return res.status(200).json(resObj);
 }
 
-export { createTodo, updateTodo, deleteTodo, getTodos };
+async function getTodo(req, res, next) {
+  //
+}
+
+export { createTodo, updateTodo, deleteTodo, getTodos, getTodo };
