@@ -143,6 +143,24 @@ async function getTodo(req, res, next) {
 
   const userId = req.user.sub;
   const { todoId } = matchedData(req);
+
+  const queryResult = await db.getTodo(todoId);
+  if (queryResult.err) return next(queryResult.err);
+  if (!queryResult.result) {
+    const resObj = makeResponseObj(false, "Todo item not found");
+
+    return res.status(404).json(resObj);
+  }
+
+  if (queryResult.result.user_id !== userId) {
+    const resObj = makeResponseObj(false, "Forbidden");
+
+    return res.status(403).json(resObj);
+  }
+
+  const resObj = makeResponseObj(true, "Got todo item", queryResult.result);
+
+  return res.status(200).json(resObj);
 }
 
 export { createTodo, updateTodo, deleteTodo, getTodos, getTodo };
