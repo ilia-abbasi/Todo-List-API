@@ -69,8 +69,8 @@ const limitValidator = () =>
     .trim()
     .notEmpty()
     .withMessage("limit is required")
-    .isInt({ min: 1 })
-    .withMessage("limit must be a positive integer");
+    .isInt({ min: 1, max: 100 })
+    .withMessage("limit must be an integer in 1-100 range");
 
 const registerUserValidator = () => [
   nameValidator(),

@@ -124,7 +124,10 @@ async function getTodos(req, res, next) {
     limit,
     total: queryResult.result.length,
   };
-  const resObj = makeResponseObj(true, "Got todo items", data);
+  let message = "Got todo items";
+  if (_.isEmpty(data.todos)) message = "No result";
+
+  const resObj = makeResponseObj(true, message, data);
 
   return res.status(200).json(resObj);
 }
