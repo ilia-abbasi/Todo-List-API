@@ -1,13 +1,7 @@
 import _ from "lodash";
 import { matchedData, validationResult } from "express-validator";
 
-import {
-  deleteTodoDB,
-  getTodo,
-  getTodosDB,
-  insertTodo,
-  updateTodoDB,
-} from "../database/db.mjs";
+import db from "../database/db.mjs";
 import { makeResponseObj } from "../helpers/response.mjs";
 
 async function createTodo(req, res, next) {
@@ -22,7 +16,7 @@ async function createTodo(req, res, next) {
   const userId = req.user.sub;
   const { title, description } = matchedData(req);
 
-  const queryResult = await insertTodo(title, description, userId);
+  const queryResult = await db.insertTodo(title, description, userId);
   if (queryResult.err) return next(queryResult.err);
 
   const resObj = makeResponseObj(true, "Todo item created", queryResult.result);
@@ -42,7 +36,7 @@ async function updateTodo(req, res, next) {
   const userId = req.user.sub;
   const { todoId, title, description } = matchedData(req);
 
-  const queryResult = await getTodo(todoId);
+  const queryResult = await db.getTodo(todoId);
   if (queryResult.err) return next(queryResult.err);
 
   if (!queryResult.result) {
@@ -57,7 +51,7 @@ async function updateTodo(req, res, next) {
     return res.status(403).json(resObj);
   }
 
-  const updateTodoResult = await updateTodoDB(
+  const updateTodoResult = await db.updateTodoDB(
     todoId,
     title,
     description,
@@ -88,7 +82,7 @@ async function deleteTodo(req, res, next) {
   const userId = req.user.sub;
   const { todoId } = matchedData(req);
 
-  const queryResult = await getTodo(todoId);
+  const queryResult = await db.getTodo(todoId);
   if (queryResult.err) return next(queryResult.err);
 
   if (!queryResult.result) {
@@ -103,7 +97,7 @@ async function deleteTodo(req, res, next) {
     return res.status(403).json(resObj);
   }
 
-  const deleteTodoResult = await deleteTodoDB(todoId);
+  const deleteTodoResult = await db.deleteTodoDB(todoId);
   if (deleteTodoResult.err) return next(deleteTodoResult.err);
 
   return res.status(204).send();
@@ -121,7 +115,7 @@ async function getTodos(req, res, next) {
   const userId = req.user.sub;
   const { page, limit } = matchedData(req);
 
-  const queryResult = await getTodosDB(page, limit, userId);
+  const queryResult = await db.getTodosDB(page, limit, userId);
   if (queryResult.err) return next(queryResult.err);
 
   const data = {

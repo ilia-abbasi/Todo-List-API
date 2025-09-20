@@ -100,7 +100,7 @@ async function getTodo(todoId) {
   }
 }
 
-async function updateTodoDB(todoId, title, description, userId) {
+async function updateTodo(todoId, title, description, userId) {
   const query = `
   UPDATE todos
   SET title = $1, description = $2, updated_at = NOW()
@@ -121,7 +121,7 @@ async function updateTodoDB(todoId, title, description, userId) {
   }
 }
 
-async function deleteTodoDB(todoId) {
+async function deleteTodo(todoId) {
   const query = "DELETE FROM todos WHERE todo_id = $1;";
 
   try {
@@ -132,7 +132,7 @@ async function deleteTodoDB(todoId) {
   }
 }
 
-async function getTodosDB(page, limit, userId) {
+async function getTodos(page, limit, userId) {
   const query = `
   SELECT * FROM todos
   WHERE user_id = $1
@@ -148,7 +148,7 @@ async function getTodosDB(page, limit, userId) {
   }
 }
 
-export {
+export default {
   initializePool,
   getUserCountByEmail,
   insertUser,
@@ -156,7 +156,7 @@ export {
   updateLastLogin,
   insertTodo,
   getTodo,
-  updateTodoDB,
-  deleteTodoDB,
-  getTodosDB,
+  updateTodo,
+  deleteTodo,
+  getTodos,
 };

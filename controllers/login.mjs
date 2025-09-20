@@ -2,9 +2,9 @@ import _ from "lodash";
 import bcrypt from "bcryptjs";
 import { matchedData, validationResult } from "express-validator";
 
+import db from "../database/db.mjs";
 import { createJWT } from "../helpers/auth.mjs";
 import { makeResponseObj } from "../helpers/response.mjs";
-import { selectUser, updateLastLogin } from "../database/db.mjs";
 
 async function loginUser(req, res, next) {
   const validationErrors = validationResult(req).errors;
@@ -19,7 +19,7 @@ async function loginUser(req, res, next) {
   }
 
   const { email, password } = matchedData(req);
-  const queryResult = await selectUser(email);
+  const queryResult = await db.selectUser(email);
   if (queryResult.err) return next(queryResult.err);
 
   if (!queryResult.result) {
@@ -43,7 +43,7 @@ async function loginUser(req, res, next) {
   const resObj = makeResponseObj(true, "Login successful", { token });
 
   res.status(200).json(resObj);
-  await updateLastLogin(userId);
+  await db.updateLastLogin(userId);
 }
 
 export { loginUser };

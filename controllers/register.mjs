@@ -2,9 +2,9 @@ import _ from "lodash";
 import bcrypt from "bcryptjs";
 import { matchedData, validationResult } from "express-validator";
 
+import db from "../database/db.mjs";
 import { createJWT } from "../helpers/auth.mjs";
 import { makeResponseObj } from "../helpers/response.mjs";
-import { getUserCountByEmail, insertUser } from "../database/db.mjs";
 
 async function registerUser(req, res, next) {
   const validationErrors = validationResult(req).errors;
@@ -17,7 +17,7 @@ async function registerUser(req, res, next) {
 
   const { name, email, password } = matchedData(req);
 
-  const userCountResult = await getUserCountByEmail(email);
+  const userCountResult = await db.getUserCountByEmail(email);
   if (userCountResult.err) return next(userCountResult.err);
   if (userCountResult.result) {
     const resObj = makeResponseObj(false, "This email is already in use");
@@ -26,7 +26,7 @@ async function registerUser(req, res, next) {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const insertUserResult = await insertUser(name, email, hashedPassword);
+  const insertUserResult = await db.insertUser(name, email, hashedPassword);
   if (insertUserResult.err) return next(insertUserResult.err);
 
   const userId = insertUserResult.result.user_id;

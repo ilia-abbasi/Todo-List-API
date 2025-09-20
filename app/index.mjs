@@ -5,8 +5,8 @@ import morgan from "morgan";
 import express from "express";
 import rateLimit from "express-rate-limit";
 
+import db from "../database/db.mjs";
 import mainRouter from "../routes/main.mjs";
-import { initializePool } from "../database/db.mjs";
 import { generalErrorHandler, limitResponse } from "../helpers/response.mjs";
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(mainRouter);
 
 app.use(generalErrorHandler);
 
-initializePool();
+db.initializePool();
 
 app.listen(port, () => {
   console.log(`Server: Listening on port ${port} ...`);
