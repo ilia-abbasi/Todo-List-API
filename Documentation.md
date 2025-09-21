@@ -108,15 +108,15 @@ Protected resources (all http methods):
   `400`.
 
 - `PUT` -> `/todos/:todoId`  
-  The todo item with an ID of `:todoId` will be updated based on the request
+  The todo item with the ID of `:todoId` will be updated based on the request
   body provided. The request body must be a json object with `title` and
   `description` properties. The response contains the updated todo item.
   Possible status codes are `200`, `400`, `401`, `403` and `404`.
 
 - `DELETE` -> `/todos/:todoId`  
-  Delete the todo item with an ID of `:todoId`. Possible status codes are `204`,
-  `400`, `401`, `403` and `404`. Response body will be empty if the status code
-  is `204`.
+  Delete the todo item with the ID of `:todoId`. Possible status codes are
+  `204`, `400`, `401`, `403` and `404`. Response body will be empty if the
+  status code is `204`.
 
 - `GET` -> `/todos`  
   Gets a paginated list of todo items. Two query parameters called `page` and
