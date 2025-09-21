@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config();
+import "../helpers/load_env.mjs";
 
 import { Client } from "pg";
 

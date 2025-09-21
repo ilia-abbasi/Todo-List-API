@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import { makeResponseObj } from "./response.mjs";
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 function createJWT(userId, name, email, expiresIn = "1h") {
   if (!userId || !name || !email) return false;
 
@@ -10,7 +12,7 @@ function createJWT(userId, name, email, expiresIn = "1h") {
       name: name,
       email: email,
     },
-    process.env.JWT_SECRET,
+    JWT_SECRET,
     {
       expiresIn,
     }
@@ -28,7 +30,7 @@ function verifyToken(req, res, next) {
   }
 
   try {
-    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = jwt.verify(token, JWT_SECRET);
     return next();
   } catch (err) {
     const resObj = makeResponseObj(false, "Invalid or expired token");
