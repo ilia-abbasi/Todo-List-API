@@ -118,6 +118,47 @@ Protected resources (all http methods):
   `400`, `401`, `403` and `404`. Response body will be empty if the status code
   is `204`.
 
+- `GET` -> `/todos`  
+  Gets a paginated list of todo items. Two query parameters called `page` and
+  `limit` are required for this to work. Possible status codes are `200`, `400`
+  and `401`. Response body will contain the list of todo items as well as
+  pagination details. An example for the response:
+
+  ```json
+  {
+    "success": true,
+    "message": "Got todo items",
+    "data": {
+      "todos": [
+        {
+          "todo_id": 2,
+          "user_id": 3,
+          "title": "Do homework",
+          "description": "Solve differential equation, deadline is Friday.",
+          "created_at": "2025-10-15T18:16:34.509Z",
+          "updated_at": "2025-10-17T23:02:40.961Z"
+        },
+        {
+          "todo_id": 7,
+          "user_id": 3,
+          "title": "Study JS",
+          "description": "Read about classes",
+          "created_at": "2025-10-19T14:26:01.448Z",
+          "updated_at": "2025-10-19T14:26:01.448Z"
+        }
+      ],
+      "page": 2,
+      "limit": 3,
+      "total": 2
+    }
+  }
+  ```
+
+- `GET` -> `/todos/:todoId`  
+  Get a specific todo item with the ID of `:todoId`. Possible status codes are
+  `200`, `400`, `401`, `403` and `404`. Response body will contain the todo
+  item.
+
 The API uses rate limiter. This means that at each point if you reach your
 request limit, a `429` error will be sent back. So all the endpoints may also
 return `429` status code aside from what was explained.
