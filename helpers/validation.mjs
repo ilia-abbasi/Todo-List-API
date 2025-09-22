@@ -54,7 +54,8 @@ const todoIdValidator = () =>
     .notEmpty()
     .withMessage("todo ID is required")
     .isInt({ min: 1 })
-    .withMessage("todo ID must be a positive integer");
+    .withMessage("todo ID must be a positive integer")
+    .toInt();
 
 const pageValidator = () =>
   query("page")
@@ -62,7 +63,8 @@ const pageValidator = () =>
     .notEmpty()
     .withMessage("page is required")
     .isInt({ min: 1 })
-    .withMessage("page must be a positive integer");
+    .withMessage("page must be a positive integer")
+    .toInt();
 
 const limitValidator = () =>
   query("limit")
@@ -70,7 +72,8 @@ const limitValidator = () =>
     .notEmpty()
     .withMessage("limit is required")
     .isInt({ min: 1, max: 100 })
-    .withMessage("limit must be an integer in 1-100 range");
+    .withMessage("limit must be an integer in 1-100 range")
+    .toInt();
 
 const registerUserValidator = () => [
   nameValidator(),

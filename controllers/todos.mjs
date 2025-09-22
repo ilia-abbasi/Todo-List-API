@@ -120,8 +120,8 @@ async function getTodos(req, res, next) {
 
   const data = {
     todos: queryResult.result,
-    page: parseInt(page),
-    limit: parseInt(limit),
+    page: page,
+    limit: limit,
     total: queryResult.result.length,
   };
   let message = "Got todo items";
