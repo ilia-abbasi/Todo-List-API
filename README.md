@@ -33,7 +33,7 @@ The API also has rate limiting to prevent abuse.
    DB_USER=your_database_username
    DB_HOST=your_database_host
    DB_NAME=your_database_name
-   DB_PASSWORD=your_database_password
+   DB_PASS=your_database_password
    DB_PORT=your_database_port
    JWT_SECRET=your_jwt_secret
    ```
