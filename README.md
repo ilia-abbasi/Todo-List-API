@@ -35,6 +35,11 @@ The API also has rate limiting to prevent abuse.
    DB_NAME=your_database_name
    DB_PASS=your_database_password
    DB_PORT=your_database_port
+   DB_USER_TEST=your_test_database_username
+   DB_HOST_TEST=your_test_database_host
+   DB_NAME_TEST=your_test_database_name
+   DB_PASS_TEST=your_test_database_password
+   DB_PORT_TEST=your_test_database_port
    JWT_SECRET=your_jwt_secret
    ```
 

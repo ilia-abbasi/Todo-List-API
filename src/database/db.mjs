@@ -1,9 +1,11 @@
 import { Pool } from "pg";
 
 let pool = null;
-let testMode = null;
+let test = null;
 
-function initializePool(test = false) {
+function initializePool(options = { test: false }) {
+  options = options || { test: false };
+  test = options.test;
   pool = new Pool({
     user: test ? process.env.DB_USER_TEST : process.env.DB_USER,
     host: test ? process.env.DB_HOST_TEST : process.env.DB_HOST,
@@ -11,7 +13,6 @@ function initializePool(test = false) {
     password: test ? process.env.DB_PASS_TEST : process.env.DB_PASS,
     port: test ? process.env.DB_PORT_TEST : process.env.DB_PORT,
   });
-  testMode = test;
 
   console.log("Database: Initialized pool");
 
