@@ -17,7 +17,7 @@ const res = {
 
 const next = jest.fn();
 
-const jwt =
+const expiredJWT =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
   "." +
   "eyJzdWIiOjcsIm5hbWUiOiJKb2huIERvZSIsImVtYWlsIjoiam9obkBkb2UiLCJpYXQiOjE3NTg3MTQ0ODYsImV4cCI6MTc1ODcxNDQ4N30" +
@@ -33,7 +33,7 @@ export default {
   req,
   res,
   next,
-  jwt,
+  expiredJWT,
   jwtSecret,
   verifyTokenMiddleware,
 };

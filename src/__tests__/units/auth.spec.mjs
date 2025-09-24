@@ -42,4 +42,15 @@ describe("verifying a JWT", () => {
     expect(mocks.res.status).toHaveBeenCalledWith(401);
     expect(mocks.res.json).toHaveBeenCalledWith(resObj);
   });
+
+  it("should not verify an expired JWT", () => {
+    const resObj = makeResponseObj(false, "Invalid or expired token");
+
+    mocks.req.headers.authorization = `Bearer ${mocks.expiredJWT}`;
+    mocks.verifyTokenMiddleware(mocks.req, mocks.res, mocks.next);
+
+    expect(mocks.next).not.toHaveBeenCalled();
+    expect(mocks.res.status).toHaveBeenCalledWith(401);
+    expect(mocks.res.json).toHaveBeenCalledWith(resObj);
+  });
 });
