@@ -151,6 +151,18 @@ async function getTodos(page, limit, userId) {
   }
 }
 
+async function clearTables() {
+  if (!test) {
+    return;
+  }
+
+  const usersQuery = "TRUNCATE users;";
+  const todosQuery = "TRUNCATE todos;";
+
+  await pool.query(usersQuery);
+  await pool.query(todosQuery);
+}
+
 export default {
   initializePool,
   getUserCountByEmail,
@@ -162,4 +174,5 @@ export default {
   updateTodo,
   deleteTodo,
   getTodos,
+  clearTables,
 };

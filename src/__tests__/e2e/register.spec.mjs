@@ -45,4 +45,8 @@ describe("validation test", () => {
       })
       .expect(400);
   });
+
+  afterAll(async () => {
+    await db.clearTables();
+  });
 });
