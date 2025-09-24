@@ -26,7 +26,7 @@ The API also has rate limiting to prevent abuse.
    npm install
    ```
 
-3. Create the `.env` file in the root of the project and set the variables:
+3. Create the `.env` file inside the `/misc` directory and set the variables:
 
    ```env
    PORT=your_port
