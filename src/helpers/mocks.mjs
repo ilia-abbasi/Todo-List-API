@@ -1,3 +1,5 @@
+import { verifyToken } from "./auth.mjs";
+
 const userData = {
   id: 7,
   name: "John Doe",
@@ -9,7 +11,7 @@ const req = {
 };
 
 const res = {
-  status: jest.fn(),
+  status: jest.fn(() => res),
   json: jest.fn(),
 };
 
@@ -24,6 +26,8 @@ const jwt =
 
 const jwtSecret = "aaaaaaaaaaaaaaaaaaa";
 
+const verifyTokenMiddleware = verifyToken(jwtSecret);
+
 export default {
   userData,
   req,
@@ -31,4 +35,5 @@ export default {
   next,
   jwt,
   jwtSecret,
+  verifyTokenMiddleware,
 };

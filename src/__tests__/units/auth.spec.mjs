@@ -1,6 +1,8 @@
 import "../../helpers/load_env.mjs";
+
 import mocks from "../../helpers/mocks.mjs";
 import { createJWT, verifyToken } from "../../helpers/auth.mjs";
+import { makeResponseObj } from "../../helpers/response.mjs";
 
 describe("creating a JWT", () => {
   it("should return a JWT when all fields are present", () => {
@@ -23,11 +25,21 @@ describe("verifying a JWT", () => {
       "1h",
       mocks.jwtSecret
     );
-    const verifyTokenMiddleware = verifyToken(mocks.jwtSecret);
 
     mocks.req.headers.authorization = `Bearer ${jwt}`;
-    verifyTokenMiddleware(mocks.req, mocks.res, mocks.next);
+    mocks.verifyTokenMiddleware(mocks.req, mocks.res, mocks.next);
 
     expect(mocks.next).toHaveBeenCalledTimes(1);
+  });
+
+  it("should notice the absence of JWT", () => {
+    const resObj = makeResponseObj(false, "Unauthorized");
+
+    mocks.req.headers.authorization = undefined;
+    mocks.verifyTokenMiddleware(mocks.req, mocks.res, mocks.next);
+
+    expect(mocks.next).not.toHaveBeenCalled();
+    expect(mocks.res.status).toHaveBeenCalledWith(401);
+    expect(mocks.res.json).toHaveBeenCalledWith(resObj);
   });
 });
