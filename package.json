@@ -6,6 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:units": "jest --testPathPatterns=src/__tests__/units",
+    "test:e2e": "jest --testPathPatterns=src/__tests__/e2e",
     "dev": "nodemon ./src/index.mjs",
     "start": "node ./src/index.mjs",
     "setup": "node ./src/database/db_setup.mjs"
