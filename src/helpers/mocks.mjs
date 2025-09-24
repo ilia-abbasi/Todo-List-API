@@ -4,10 +4,16 @@ const userData = {
   email: "john@doe.com",
 };
 
+const req = {
+  headers: {},
+};
+
 const res = {
   status: jest.fn(),
   json: jest.fn(),
 };
+
+const next = jest.fn();
 
 const jwt =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
@@ -20,7 +26,9 @@ const jwtSecret = "aaaaaaaaaaaaaaaaaaa";
 
 export default {
   userData,
+  req,
   res,
+  next,
   jwt,
   jwtSecret,
 };
