@@ -34,4 +34,15 @@ describe("validation test", () => {
       })
       .expect(400);
   });
+
+  it("should validate email", async () => {
+    await request(app)
+      .post("/register")
+      .send({
+        name: "John Doe",
+        email: "@doe.com",
+        password: "abcABC123!",
+      })
+      .expect(400);
+  });
 });
