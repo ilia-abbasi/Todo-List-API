@@ -64,4 +64,20 @@ describe("verifying a JWT", () => {
     expect(mocks.res.status).toHaveBeenCalledWith(401);
     expect(mocks.res.json).toHaveBeenCalledWith(resObj);
   });
+
+  it("should care about the presence of authentication scheme", () => {
+    const resObj = makeResponseObj(false, "Unauthorized");
+    const jwt = createJWT(
+      ...Object.values(mocks.userData),
+      "1h",
+      mocks.jwtSecret
+    );
+
+    mocks.req.headers.authorization = `${jwt}`;
+    mocks.verifyTokenMiddleware(mocks.req, mocks.res, mocks.next);
+
+    expect(mocks.next).not.toHaveBeenCalled();
+    expect(mocks.res.status).toHaveBeenCalledWith(401);
+    expect(mocks.res.json).toHaveBeenCalledWith(resObj);
+  });
 });
