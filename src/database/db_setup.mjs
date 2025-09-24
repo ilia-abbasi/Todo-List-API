@@ -2,13 +2,23 @@ import "../helpers/load_env.mjs";
 
 import { Client } from "pg";
 
+let test = false;
+
+if (process.argv[2] === "test") {
+  test = true;
+}
+
 const client = new Client({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  user: test ? process.env.DB_USER_TEST : process.env.DB_USER,
+  host: test ? process.env.DB_HOST_TEST : process.env.DB_HOST,
+  database: test ? process.env.DB_NAME_TEST : process.env.DB_NAME,
+  password: test ? process.env.DB_PASS_TEST : process.env.DB_PASS,
+  port: test ? process.env.DB_PORT_TEST : process.env.DB_PORT,
 });
+
+function customLog(text = "") {
+  console.log(`${test ? "[TEST] " : ""}Database: ${text}`);
+}
 
 async function createUsersTable() {
   await client.connect();
@@ -23,7 +33,7 @@ async function createUsersTable() {
     );
   `);
 
-  console.log('Database: Successfully created "users" table');
+  customLog('Successfully created "users" table');
 }
 
 async function createTodosTable() {
@@ -42,14 +52,12 @@ async function createTodosTable() {
   `);
   await client.end();
 
-  console.log('Database: Successfully created "todos" table');
+  customLog('Successfully created "todos" table');
 }
 
 createUsersTable()
   .then(() => createTodosTable())
-  .then(() => console.log("Database: Setup is completed"))
+  .then(() => customLog("Setup is completed"))
   .catch((err) =>
-    console.log(
-      `Database: Something went wrong while running the setup. ${err}`
-    )
+    customLog(`Something went wrong while running the setup. ${err}`)
   );

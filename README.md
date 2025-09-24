@@ -43,10 +43,19 @@ The API also has rate limiting to prevent abuse.
    JWT_SECRET=your_jwt_secret
    ```
 
+   You can ignore the `_TEST` variables if you don't want to run tests.
+
 4. Create the required tables in your database:
 
    ```sh
    npm run setup
+   ```
+
+5. If you want to run tests too, create the required tables in your test
+   database:
+
+   ```sh
+   npm run setup:test
    ```
 
 ## Usage
