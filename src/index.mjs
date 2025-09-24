@@ -1,12 +1,12 @@
-import "../helpers/load_env.mjs";
+import "./helpers/load_env.mjs";
 
 import morgan from "morgan";
 import express from "express";
 import rateLimit from "express-rate-limit";
 
-import db from "../database/db.mjs";
-import mainRouter from "../routes/main.mjs";
-import { generalErrorHandler, limitResponse } from "../helpers/response.mjs";
+import db from "./database/db.mjs";
+import mainRouter from "./routes/main.mjs";
+import { generalErrorHandler, limitResponse } from "./helpers/response.mjs";
 
 const app = express();
 const port = process.env.PORT || 4000;
