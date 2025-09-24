@@ -19,8 +19,8 @@ import { send404Error, send405Error } from "../helpers/response.mjs";
 
 const router = express.Router();
 
-router.use("/", verifyToken);
-router.use("/:todoId", verifyToken);
+router.use("/", verifyToken());
+router.use("/:todoId", verifyToken());
 
 router.post("/", createTodoValidator(), createTodo);
 router.get("/", getTodosValidator(), getTodos);

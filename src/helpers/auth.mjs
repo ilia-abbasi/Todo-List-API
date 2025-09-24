@@ -3,7 +3,7 @@ import { makeResponseObj } from "./response.mjs";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-function createJWT(userId, name, email, expiresIn = "1h") {
+function createJWT(userId, name, email, expiresIn = "1h", secret = JWT_SECRET) {
   if (!userId || !name || !email) return false;
 
   return jwt.sign(
@@ -12,31 +12,33 @@ function createJWT(userId, name, email, expiresIn = "1h") {
       name: name,
       email: email,
     },
-    JWT_SECRET,
+    secret,
     {
       expiresIn,
     }
   );
 }
 
-function verifyToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader ? authHeader.split(" ")[1] : null;
+function verifyToken(secret = JWT_SECRET) {
+  return (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader ? authHeader.split(" ")[1] : null;
 
-  if (!token) {
-    const resObj = makeResponseObj(false, "Unauthorized");
+    if (!token) {
+      const resObj = makeResponseObj(false, "Unauthorized");
 
-    return res.status(401).json(resObj);
-  }
+      return res.status(401).json(resObj);
+    }
 
-  try {
-    req.user = jwt.verify(token, JWT_SECRET);
-    return next();
-  } catch (err) {
-    const resObj = makeResponseObj(false, "Invalid or expired token");
+    try {
+      req.user = jwt.verify(token, secret);
+      return next();
+    } catch (err) {
+      const resObj = makeResponseObj(false, "Invalid or expired token");
 
-    return res.status(401).json(resObj);
-  }
+      return res.status(401).json(resObj);
+    }
+  };
 }
 
 export { createJWT, verifyToken };
