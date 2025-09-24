@@ -14,7 +14,7 @@ function initializePool(options = { test: false }) {
     port: test ? process.env.DB_PORT_TEST : process.env.DB_PORT,
   });
 
-  console.log("Database: Initialized pool");
+  console.log(`${test ? "[TEST] " : ""}Database: Initialized pool`);
 
   return pool;
 }
@@ -156,11 +156,15 @@ async function clearTables() {
     return;
   }
 
-  const usersQuery = "TRUNCATE users;";
-  const todosQuery = "TRUNCATE todos;";
+  const todosQuery = "DELETE FROM todos;";
+  const usersQuery = "DELETE FROM users;";
 
-  await pool.query(usersQuery);
   await pool.query(todosQuery);
+  await pool.query(usersQuery);
+}
+
+async function endPool() {
+  await pool.end();
 }
 
 export default {
@@ -175,4 +179,5 @@ export default {
   deleteTodo,
   getTodos,
   clearTables,
+  endPool,
 };
