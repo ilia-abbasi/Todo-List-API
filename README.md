@@ -80,6 +80,15 @@ The API also has rate limiting to prevent abuse.
 - morgan
 - pg
 
+### Dev dependencies
+
+- @babel/core
+- @babel/node
+- @babel/preset-env
+- @types/jest
+- jest
+- supertest
+
 The source code is formatted with [Prettier](https://prettier.io/).
 
 ---
