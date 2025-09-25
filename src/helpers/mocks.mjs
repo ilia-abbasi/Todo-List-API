@@ -1,15 +1,22 @@
 import { verifyToken } from "./auth.mjs";
 
-const userData = {
+const userDataJohn = {
   id: 7,
   name: "John Doe",
   email: "john@doe.com",
   password: "abcABC123!",
 };
 
+const userDataBob = {
+  id: 12,
+  name: "Bob Ross",
+  email: "bob@ross.com",
+  password: "?987ZYXzyx",
+};
+
 const todoData = {
-  title: "Test title",
-  description: "Some description about the todo item.",
+  title: "Take a shower",
+  description: "Take a shower at 5p.m and use the new soap",
 };
 
 const req = {
@@ -42,7 +49,8 @@ const jwtSecret = "aaaaaaaaaaaaaaaaaaa";
 const verifyTokenMiddleware = verifyToken(jwtSecret);
 
 export default {
-  userData,
+  userDataJohn,
+  userDataBob,
   todoData,
   req,
   res,

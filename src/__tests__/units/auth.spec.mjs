@@ -7,16 +7,16 @@ import { makeResponseObj } from "../../helpers/response.mjs";
 describe("creating a JWT", () => {
   it("should return a JWT when all fields are present", () => {
     const jwt = createJWT(
-      mocks.userData.id,
-      mocks.userData.name,
-      mocks.userData.email
+      mocks.userDataJohn.id,
+      mocks.userDataJohn.name,
+      mocks.userDataJohn.email
     );
 
     expect(jwt).toBeTruthy();
   });
 
   it("should return false when some fields are missing", () => {
-    const jwt = createJWT(mocks.userData.id, mocks.userData.name);
+    const jwt = createJWT(mocks.userDataJohn.id, mocks.userDataJohn.name);
 
     expect(jwt).toEqual(false);
   });
@@ -25,9 +25,9 @@ describe("creating a JWT", () => {
 describe("verifying a JWT", () => {
   it("should verify a valid JWT", () => {
     const jwt = createJWT(
-      mocks.userData.id,
-      mocks.userData.name,
-      mocks.userData.email,
+      mocks.userDataJohn.id,
+      mocks.userDataJohn.name,
+      mocks.userDataJohn.email,
       "1h",
       mocks.jwtSecret
     );
@@ -74,9 +74,9 @@ describe("verifying a JWT", () => {
   it("should care about the presence of authentication scheme", () => {
     const resObj = makeResponseObj(false, "Unauthorized");
     const jwt = createJWT(
-      mocks.userData.id,
-      mocks.userData.name,
-      mocks.userData.email,
+      mocks.userDataJohn.id,
+      mocks.userDataJohn.name,
+      mocks.userDataJohn.email,
       "1h",
       mocks.jwtSecret
     );

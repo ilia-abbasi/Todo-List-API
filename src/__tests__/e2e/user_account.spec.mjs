@@ -20,8 +20,8 @@ describe("validation test for /register", () => {
       .post("/register")
       .send({
         name: "",
-        email: mocks.userData.email,
-        password: mocks.userData.password,
+        email: mocks.userDataJohn.email,
+        password: mocks.userDataJohn.password,
       })
       .expect(400);
 
@@ -29,8 +29,8 @@ describe("validation test for /register", () => {
       .post("/register")
       .send({
         name: 17,
-        email: mocks.userData.email,
-        password: mocks.userData.password,
+        email: mocks.userDataJohn.email,
+        password: mocks.userDataJohn.password,
       })
       .expect(400);
 
@@ -38,8 +38,8 @@ describe("validation test for /register", () => {
       .post("/register")
       .send({
         name: "01234567890123456789012345678901234567890123456789a",
-        email: mocks.userData.email,
-        password: mocks.userData.password,
+        email: mocks.userDataJohn.email,
+        password: mocks.userDataJohn.password,
       })
       .expect(400);
   });
@@ -48,36 +48,36 @@ describe("validation test for /register", () => {
     await request(app)
       .post("/register")
       .send({
-        name: mocks.userData.name,
+        name: mocks.userDataJohn.name,
         email: "@doe.com",
-        password: mocks.userData.password,
+        password: mocks.userDataJohn.password,
       })
       .expect(400);
 
     await request(app)
       .post("/register")
       .send({
-        name: mocks.userData.name,
+        name: mocks.userDataJohn.name,
         email: "john@.com",
-        password: mocks.userData.password,
+        password: mocks.userDataJohn.password,
       })
       .expect(400);
 
     await request(app)
       .post("/register")
       .send({
-        name: mocks.userData.name,
+        name: mocks.userDataJohn.name,
         email: "jo hn@doe.com",
-        password: mocks.userData.password,
+        password: mocks.userDataJohn.password,
       })
       .expect(400);
 
     await request(app)
       .post("/register")
       .send({
-        name: mocks.userData.name,
+        name: mocks.userDataJohn.name,
         email: "john@doe@example.test",
-        password: mocks.userData.password,
+        password: mocks.userDataJohn.password,
       })
       .expect(400);
   });
@@ -86,8 +86,8 @@ describe("validation test for /register", () => {
     await request(app)
       .post("/register")
       .send({
-        name: mocks.userData.name,
-        email: mocks.userData.email,
+        name: mocks.userDataJohn.name,
+        email: mocks.userDataJohn.email,
         password: "abc",
       })
       .expect(400);
@@ -95,8 +95,8 @@ describe("validation test for /register", () => {
     await request(app)
       .post("/register")
       .send({
-        name: mocks.userData.name,
-        email: mocks.userData.email,
+        name: mocks.userDataJohn.name,
+        email: mocks.userDataJohn.email,
         password: "aaBB11!",
       })
       .expect(400);
@@ -108,9 +108,9 @@ describe("registering a new user", () => {
     await request(app)
       .post("/register")
       .send({
-        name: mocks.userData.name,
-        email: mocks.userData.email,
-        password: mocks.userData.password,
+        name: mocks.userDataJohn.name,
+        email: mocks.userDataJohn.email,
+        password: mocks.userDataJohn.password,
       })
       .expect(201);
   });
@@ -120,7 +120,7 @@ describe("registering a new user", () => {
       .post("/register")
       .send({
         name: "Doe John",
-        email: mocks.userData.email,
+        email: mocks.userDataJohn.email,
         password: "!321CBAcba",
       })
       .expect(409);
@@ -132,7 +132,7 @@ describe("successfully logging in", () => {
     await request(app)
       .post("/login")
       .send({
-        email: mocks.userData.email,
+        email: mocks.userDataJohn.email,
         password: "wrong_PASSWORD!1!1",
       })
       .expect(401);
@@ -142,8 +142,8 @@ describe("successfully logging in", () => {
     await request(app)
       .post("/login")
       .send({
-        email: mocks.userData.email,
-        password: mocks.userData.password,
+        email: mocks.userDataJohn.email,
+        password: mocks.userDataJohn.password,
       })
       .expect(200);
   });
