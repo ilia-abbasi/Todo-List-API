@@ -12,7 +12,7 @@ afterAll(async () => {
   await db.endPool();
 });
 
-describe("validation test", () => {
+describe("validation test for /register", () => {
   it("should validate name", async () => {
     await request(app)
       .post("/register")
@@ -101,7 +101,7 @@ describe("validation test", () => {
   });
 });
 
-describe("user creation test", () => {
+describe("registering a new user test", () => {
   it("should successfully create a user with valid info", async () => {
     await request(app)
       .post("/register")
