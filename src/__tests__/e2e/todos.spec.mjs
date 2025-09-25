@@ -28,4 +28,16 @@ describe("registering and creating a todo item", () => {
 
     jwt = response.body.data.token;
   });
+
+  it("should check the JWT when creating a todo item", async () => {
+    await request(app).post("/todos").send(mocks.todoData).expect(401);
+  });
+
+  it("should successfully create a todo item", async () => {
+    await request(app)
+      .post("/todos")
+      .set("Authorization", `Bearer ${jwt}`)
+      .send(mocks.todoData)
+      .expect(201);
+  });
 });

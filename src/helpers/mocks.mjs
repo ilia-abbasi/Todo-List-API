@@ -7,6 +7,11 @@ const userData = {
   password: "abcABC123!",
 };
 
+const todoData = {
+  title: "Test title",
+  description: "Some description about the todo item.",
+};
+
 const req = {
   headers: {},
 };
@@ -38,6 +43,7 @@ const verifyTokenMiddleware = verifyToken(jwtSecret);
 
 export default {
   userData,
+  todoData,
   req,
   res,
   next,

@@ -38,8 +38,8 @@ describe("405 errors", () => {
     const allowedMethods = response.headers.allow.split(", ");
 
     expect(response.statusCode).toEqual(405);
-    expect(allowedMethods.indexOf("POST")).not.toEqual(-1);
-    expect(allowedMethods.indexOf("GET")).not.toEqual(-1);
+    expect(allowedMethods).toContain("POST");
+    expect(allowedMethods).toContain("GET");
   });
 
   it("should get 405 error on OPTIONS /todos/:todoId", async () => {
@@ -49,8 +49,8 @@ describe("405 errors", () => {
     const allowedMethods = response.headers.allow.split(", ");
 
     expect(response.statusCode).toEqual(405);
-    expect(allowedMethods.indexOf("PUT")).not.toEqual(-1);
-    expect(allowedMethods.indexOf("DELETE")).not.toEqual(-1);
-    expect(allowedMethods.indexOf("GET")).not.toEqual(-1);
+    expect(allowedMethods).toContain("PUT");
+    expect(allowedMethods).toContain("DELETE");
+    expect(allowedMethods).toContain("GET");
   });
 });
