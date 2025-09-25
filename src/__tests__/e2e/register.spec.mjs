@@ -79,4 +79,15 @@ describe("validation test", () => {
       })
       .expect(400);
   });
+
+  it("should validate password", async () => {
+    await request(app)
+      .post("/register")
+      .send({
+        name: "John Doe",
+        email: "john@doe.com",
+        password: "abc",
+      })
+      .expect(400);
+  });
 });

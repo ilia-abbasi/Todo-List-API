@@ -14,9 +14,13 @@ function initializePool(options = { test: false }) {
     port: test ? process.env.DB_PORT_TEST : process.env.DB_PORT,
   });
 
-  console.log(`${test ? "[TEST] " : ""}Database: Initialized pool`);
+  customLog("Initialized pool");
 
   return pool;
+}
+
+function customLog(text = "") {
+  console.log(`${test ? "[TEST] " : ""}Database: ${text}`);
 }
 
 function makeDatabaseResponse(err, result) {
@@ -70,10 +74,8 @@ async function updateLastLogin(userId) {
   try {
     await pool.query(query, [userId]);
   } catch (err) {
-    console.log(
-      `Database: Failed to update last_login_at of user_id = ${userId}:`
-    );
-    console.log(err);
+    customLog(`Failed to update last_login_at of user_id = ${userId}:`);
+    customLog(err);
   }
 }
 
