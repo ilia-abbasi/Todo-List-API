@@ -89,5 +89,38 @@ describe("validation test", () => {
         password: "abc",
       })
       .expect(400);
+
+    await request(app)
+      .post("/register")
+      .send({
+        name: "John Doe",
+        email: "john@doe.com",
+        password: "aaBB11!",
+      })
+      .expect(400);
+  });
+});
+
+describe("user creation test", () => {
+  it("should successfully create a user with valid info", async () => {
+    await request(app)
+      .post("/register")
+      .send({
+        name: "John Doe",
+        email: "john@doe.com",
+        password: "abcABC123!",
+      })
+      .expect(201);
+  });
+
+  it("should not create a user with duplicate email", async () => {
+    await request(app)
+      .post("/register")
+      .send({
+        name: "Doe John",
+        email: "john@doe.com",
+        password: "!321CBAcba",
+      })
+      .expect(409);
   });
 });
