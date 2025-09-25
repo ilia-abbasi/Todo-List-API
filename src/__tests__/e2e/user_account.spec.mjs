@@ -103,7 +103,7 @@ describe("validation test for /register", () => {
   });
 });
 
-describe("registering a new user test", () => {
+describe("registering a new user", () => {
   it("should successfully create a user with valid info", async () => {
     await request(app)
       .post("/register")
@@ -127,7 +127,7 @@ describe("registering a new user test", () => {
   });
 });
 
-describe("successful login test", () => {
+describe("successfully logging in", () => {
   it("should deny incorrect passwords", async () => {
     await request(app)
       .post("/login")
