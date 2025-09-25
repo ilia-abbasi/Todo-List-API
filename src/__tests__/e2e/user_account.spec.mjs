@@ -5,6 +5,12 @@ import db from "../../database/db.mjs";
 import { createApp } from "../../app/app.mjs";
 
 const app = createApp();
+const userData = {
+  name: "John Doe",
+  email: "john@doe.com",
+  password: "abcABC123!",
+};
+
 db.initializePool({ test: true });
 
 afterAll(async () => {
@@ -103,14 +109,7 @@ describe("validation test for /register", () => {
 
 describe("registering a new user test", () => {
   it("should successfully create a user with valid info", async () => {
-    await request(app)
-      .post("/register")
-      .send({
-        name: "John Doe",
-        email: "john@doe.com",
-        password: "abcABC123!",
-      })
-      .expect(201);
+    await request(app).post("/register").send(userData).expect(201);
   });
 
   it("should not create a user with duplicate email", async () => {
@@ -122,5 +121,27 @@ describe("registering a new user test", () => {
         password: "!321CBAcba",
       })
       .expect(409);
+  });
+});
+
+describe("successful login test", () => {
+  it("should deny incorrect passwords", async () => {
+    await request(app)
+      .post("/login")
+      .send({
+        email: userData.email,
+        password: "wrong_PASSWORD!1!1",
+      })
+      .expect(401);
+  });
+
+  it("should accept valid credentials", async () => {
+    await request(app)
+      .post("/login")
+      .send({
+        email: userData.email,
+        password: userData.password,
+      })
+      .expect(200);
   });
 });
