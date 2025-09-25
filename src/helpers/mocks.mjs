@@ -24,6 +24,13 @@ const expiredJWT =
   "." +
   "nh7IJP4G2Ln-oiS5H_TA-cgK6tHOiE0L8iPmkz7E-C0";
 
+const immortalJWT = // Expires after the destruction of humanity
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
+  "." +
+  "eyJzdWIiOjEwMCwibmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAdGVzdC50ZXN0IiwiaWF0IjoxNzU4ODAzNjQxLCJleHAiOjMxNTU5MzI3MjQ2MDQxfQ" +
+  "." +
+  "0X6oaxymJHZ6BODMMg0Z7G-1qMAxD658F2Recubxh9s";
+
 const jwtSecret = "aaaaaaaaaaaaaaaaaaa";
 
 const verifyTokenMiddleware = verifyToken(jwtSecret);
@@ -34,6 +41,7 @@ export default {
   res,
   next,
   expiredJWT,
+  immortalJWT,
   jwtSecret,
   verifyTokenMiddleware,
 };

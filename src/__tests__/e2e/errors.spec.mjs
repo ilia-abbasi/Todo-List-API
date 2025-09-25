@@ -1,4 +1,7 @@
+import "../../helpers/load_env.mjs";
+
 import request from "supertest";
+import mocks from "../../helpers/mocks.mjs";
 import { createApp } from "../../app/app.mjs";
 
 const app = createApp();
@@ -26,5 +29,28 @@ describe("405 errors", () => {
 
     expect(response.statusCode).toEqual(405);
     expect(response.headers.allow).toEqual("POST");
+  });
+
+  it("should get 405 error on PATCH /todos", async () => {
+    const response = await request(app)
+      .patch("/todos")
+      .set("Authorization", `Bearer ${mocks.immortalJWT}`);
+    const allowedMethods = response.headers.allow.split(", ");
+
+    expect(response.statusCode).toEqual(405);
+    expect(allowedMethods.indexOf("POST")).not.toEqual(-1);
+    expect(allowedMethods.indexOf("GET")).not.toEqual(-1);
+  });
+
+  it("should get 405 error on OPTIONS /todos/:todoId", async () => {
+    const response = await request(app)
+      .options("/todos/1")
+      .set("Authorization", `Bearer ${mocks.immortalJWT}`);
+    const allowedMethods = response.headers.allow.split(", ");
+
+    expect(response.statusCode).toEqual(405);
+    expect(allowedMethods.indexOf("PUT")).not.toEqual(-1);
+    expect(allowedMethods.indexOf("DELETE")).not.toEqual(-1);
+    expect(allowedMethods.indexOf("GET")).not.toEqual(-1);
   });
 });
