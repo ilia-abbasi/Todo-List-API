@@ -4,6 +4,7 @@ const userData = {
   id: 7,
   name: "John Doe",
   email: "john@doe.com",
+  password: "abcABC123!",
 };
 
 const req = {

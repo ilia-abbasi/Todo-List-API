@@ -3,13 +3,9 @@ import "../../helpers/load_env.mjs";
 import request from "supertest";
 import db from "../../database/db.mjs";
 import { createApp } from "../../app/app.mjs";
+import mocks from "../../helpers/mocks.mjs";
 
 const app = createApp();
-const userData = {
-  name: "John Doe",
-  email: "john@doe.com",
-  password: "abcABC123!",
-};
 
 db.initializePool({ test: true });
 
@@ -24,8 +20,8 @@ describe("validation test for /register", () => {
       .post("/register")
       .send({
         name: "",
-        email: "john@doe.com",
-        password: "abcABC123!",
+        email: mocks.userData.email,
+        password: mocks.userData.password,
       })
       .expect(400);
 
@@ -33,8 +29,8 @@ describe("validation test for /register", () => {
       .post("/register")
       .send({
         name: 17,
-        email: "john@doe.com",
-        password: "abcABC123!",
+        email: mocks.userData.email,
+        password: mocks.userData.password,
       })
       .expect(400);
 
@@ -42,8 +38,8 @@ describe("validation test for /register", () => {
       .post("/register")
       .send({
         name: "01234567890123456789012345678901234567890123456789a",
-        email: "john@doe.com",
-        password: "abcABC123!",
+        email: mocks.userData.email,
+        password: mocks.userData.password,
       })
       .expect(400);
   });
@@ -52,36 +48,36 @@ describe("validation test for /register", () => {
     await request(app)
       .post("/register")
       .send({
-        name: "John Doe",
+        name: mocks.userData.name,
         email: "@doe.com",
-        password: "abcABC123!",
+        password: mocks.userData.password,
       })
       .expect(400);
 
     await request(app)
       .post("/register")
       .send({
-        name: "John Doe",
+        name: mocks.userData.name,
         email: "john@.com",
-        password: "abcABC123!",
+        password: mocks.userData.password,
       })
       .expect(400);
 
     await request(app)
       .post("/register")
       .send({
-        name: "John Doe",
+        name: mocks.userData.name,
         email: "jo hn@doe.com",
-        password: "abcABC123!",
+        password: mocks.userData.password,
       })
       .expect(400);
 
     await request(app)
       .post("/register")
       .send({
-        name: "John Doe",
+        name: mocks.userData.name,
         email: "john@doe@example.test",
-        password: "abcABC123!",
+        password: mocks.userData.password,
       })
       .expect(400);
   });
@@ -90,8 +86,8 @@ describe("validation test for /register", () => {
     await request(app)
       .post("/register")
       .send({
-        name: "John Doe",
-        email: "john@doe.com",
+        name: mocks.userData.name,
+        email: mocks.userData.email,
         password: "abc",
       })
       .expect(400);
@@ -99,8 +95,8 @@ describe("validation test for /register", () => {
     await request(app)
       .post("/register")
       .send({
-        name: "John Doe",
-        email: "john@doe.com",
+        name: mocks.userData.name,
+        email: mocks.userData.email,
         password: "aaBB11!",
       })
       .expect(400);
@@ -109,7 +105,14 @@ describe("validation test for /register", () => {
 
 describe("registering a new user test", () => {
   it("should successfully create a user with valid info", async () => {
-    await request(app).post("/register").send(userData).expect(201);
+    await request(app)
+      .post("/register")
+      .send({
+        name: mocks.userData.name,
+        email: mocks.userData.email,
+        password: mocks.userData.password,
+      })
+      .expect(201);
   });
 
   it("should not create a user with duplicate email", async () => {
@@ -117,7 +120,7 @@ describe("registering a new user test", () => {
       .post("/register")
       .send({
         name: "Doe John",
-        email: "john@doe.com",
+        email: mocks.userData.email,
         password: "!321CBAcba",
       })
       .expect(409);
@@ -129,7 +132,7 @@ describe("successful login test", () => {
     await request(app)
       .post("/login")
       .send({
-        email: userData.email,
+        email: mocks.userData.email,
         password: "wrong_PASSWORD!1!1",
       })
       .expect(401);
@@ -139,8 +142,8 @@ describe("successful login test", () => {
     await request(app)
       .post("/login")
       .send({
-        email: userData.email,
-        password: userData.password,
+        email: mocks.userData.email,
+        password: mocks.userData.password,
       })
       .expect(200);
   });

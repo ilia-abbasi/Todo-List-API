@@ -1,12 +1,16 @@
 import "../../helpers/load_env.mjs";
 
 import mocks from "../../helpers/mocks.mjs";
-import { createJWT, verifyToken } from "../../helpers/auth.mjs";
+import { createJWT } from "../../helpers/auth.mjs";
 import { makeResponseObj } from "../../helpers/response.mjs";
 
 describe("creating a JWT", () => {
   it("should return a JWT when all fields are present", () => {
-    const jwt = createJWT(...Object.values(mocks.userData));
+    const jwt = createJWT(
+      mocks.userData.id,
+      mocks.userData.name,
+      mocks.userData.email
+    );
 
     expect(jwt).toBeTruthy();
   });
@@ -21,7 +25,9 @@ describe("creating a JWT", () => {
 describe("verifying a JWT", () => {
   it("should verify a valid JWT", () => {
     const jwt = createJWT(
-      ...Object.values(mocks.userData),
+      mocks.userData.id,
+      mocks.userData.name,
+      mocks.userData.email,
       "1h",
       mocks.jwtSecret
     );
@@ -68,7 +74,9 @@ describe("verifying a JWT", () => {
   it("should care about the presence of authentication scheme", () => {
     const resObj = makeResponseObj(false, "Unauthorized");
     const jwt = createJWT(
-      ...Object.values(mocks.userData),
+      mocks.userData.id,
+      mocks.userData.name,
+      mocks.userData.email,
       "1h",
       mocks.jwtSecret
     );
