@@ -10,7 +10,7 @@ let jwtJohn;
 let jwtBob;
 let todoDataJohn;
 let todoDataBob;
-let UpdatedTodoData = {
+let updatedTodoData = {
   title: "[NEW] Clean room",
   description: "[NEW] Use a broom to clean the bedroom",
 };
@@ -69,7 +69,7 @@ describe("John tries to update the todo items", () => {
     await request(app)
       .put(`/todos/${todoDataBob.todo_id}`)
       .set("Authorization", `Bearer ${jwtJohn}`)
-      .send(UpdatedTodoData)
+      .send(updatedTodoData)
       .expect(403);
   });
 
@@ -77,7 +77,26 @@ describe("John tries to update the todo items", () => {
     await request(app)
       .put(`/todos/${todoDataJohn.todo_id}`)
       .set("Authorization", `Bearer ${jwtJohn}`)
-      .send(UpdatedTodoData)
+      .send(updatedTodoData)
       .expect(200);
+  });
+});
+
+describe("John tries to get the todo items", () => {
+  it("should fail in getting Bob's todo item", async () => {
+    await request(app)
+      .get(`/todos/${todoDataBob.todo_id}`)
+      .set("Authorization", `Bearer ${jwtJohn}`)
+      .expect(403);
+  });
+
+  it("should succeed in getting his todo item", async () => {
+    const response = await request(app)
+      .get(`/todos/${todoDataJohn.todo_id}`)
+      .set("Authorization", `Bearer ${jwtJohn}`);
+
+    expect(response.statusCode).toEqual(200);
+    expect(response.body.data.title).toEqual(updatedTodoData.title);
+    expect(response.body.data.description).toEqual(updatedTodoData.description);
   });
 });
