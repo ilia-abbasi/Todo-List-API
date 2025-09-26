@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken";
+import config from "./config.mjs";
 import { makeResponseObj } from "./response.mjs";
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = config.testMode
+  ? config.jwtSecretTest
+  : process.env.JWT_SECRET;
 
 function createJWT(userId, name, email, expiresIn = "1h", secret = JWT_SECRET) {
   if (!userId || !name || !email) return false;

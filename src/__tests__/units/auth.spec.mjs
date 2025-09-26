@@ -1,8 +1,11 @@
 import "../../helpers/load_env.mjs";
 
 import mocks from "../../helpers/mocks.mjs";
+import config from "../../helpers/config.mjs";
 import { createJWT } from "../../helpers/auth.mjs";
 import { makeResponseObj } from "../../helpers/response.mjs";
+
+config.testMode = true;
 
 describe("creating a JWT", () => {
   it("should return a JWT when all fields are present", () => {
@@ -29,7 +32,7 @@ describe("verifying a JWT", () => {
       mocks.userDataJohn.name,
       mocks.userDataJohn.email,
       "1h",
-      mocks.jwtSecret
+      config.jwtSecretTest
     );
 
     mocks.req.headers.authorization = `Bearer ${jwt}`;
@@ -78,7 +81,7 @@ describe("verifying a JWT", () => {
       mocks.userDataJohn.name,
       mocks.userDataJohn.email,
       "1h",
-      mocks.jwtSecret
+      config.jwtSecretTest
     );
 
     mocks.req.headers.authorization = `${jwt}`;

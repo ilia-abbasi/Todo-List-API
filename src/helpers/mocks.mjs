@@ -1,3 +1,4 @@
+import config from "./config.mjs";
 import { verifyToken } from "./auth.mjs";
 
 const userDataJohn = {
@@ -40,13 +41,11 @@ const expiredJWT =
 const immortalJWT = // Expires after the destruction of humanity
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
   "." +
-  "eyJzdWIiOjEwMCwibmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAdGVzdC50ZXN0IiwiaWF0IjoxNzU4ODAzNjQxLCJleHAiOjMxNTU5MzI3MjQ2MDQxfQ" +
+  "eyJzdWIiOjEwMCwibmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAdGVzdC50ZXN0IiwiaWF0IjoxNzU4ODg4MzY2LCJleHAiOjMxNTU5MzI3MzMwNzY2fQ" +
   "." +
-  "0X6oaxymJHZ6BODMMg0Z7G-1qMAxD658F2Recubxh9s";
+  "PFhiLWsL9bhi3GK-ozkr0O70YvTweXkb6LMwfCdku_Q";
 
-const jwtSecret = "aaaaaaaaaaaaaaaaaaa";
-
-const verifyTokenMiddleware = verifyToken(jwtSecret);
+const verifyTokenMiddleware = verifyToken(config.jwtSecretTest);
 
 export default {
   userDataJohn,
@@ -57,6 +56,5 @@ export default {
   next,
   expiredJWT,
   immortalJWT,
-  jwtSecret,
   verifyTokenMiddleware,
 };
