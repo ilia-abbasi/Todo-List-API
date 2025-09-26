@@ -100,3 +100,19 @@ describe("John tries to get the todo items", () => {
     expect(response.body.data.description).toEqual(updatedTodoData.description);
   });
 });
+
+describe("John tries to delete the todo items", () => {
+  it("should fail in deleting Bob's todo item", async () => {
+    await request(app)
+      .delete(`/todos/${todoDataBob.todo_id}`)
+      .set("Authorization", `Bearer ${jwtJohn}`)
+      .expect(403);
+  });
+
+  it("should succeed in deleting his todo item", async () => {
+    await request(app)
+      .delete(`/todos/${todoDataJohn.todo_id}`)
+      .set("Authorization", `Bearer ${jwtJohn}`)
+      .expect(204);
+  });
+});
